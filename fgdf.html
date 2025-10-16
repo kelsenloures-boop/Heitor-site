@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelton Heitor - CV Profissional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #10b981;
+            --secondary-green: #059669;
+            --accent-green: #34d399;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --light-surface: #ffffff;
+            --dark-surface: #1e293b;
+            --light-text: #334155;
+            --dark-text: #e2e8f0;
+            --border-light: #e2e8f0;
+            --border-dark: #334155;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .light-theme {
+            --bg-color: var(--light-bg);
+            --surface-color: var(--light-surface);
+            --text-color: var(--light-text);
+            --border-color: var(--border-light);
+        }
+
+        .dark-theme {
+            --bg-color: var(--dark-bg);
+            --surface-color: var(--dark-surface);
+            --text-color: var(--dark-text);
+            --border-color: var(--border-dark);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            cursor: auto;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas: 
+                "header header"
+                "aside main"
+                "footer footer";
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            grid-area: header;
+            background: var(--surface-color);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            clip-path: polygon(50% 0%, 90% 25%, 90% 75%, 50% 100%, 10% 75%, 10% 25%);
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            padding: 3px;
+            animation: float 6s ease-in-out infinite;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            clip-path: polygon(50% 0%, 90% 25%, 90% 75%, 50% 100%, 10% 75%, 10% 25%);
+            transition: var(--transition);
+        }
+
+        .profile-image:hover {
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg) translateY(-10px); }
+            100% { transform: rotate(360deg) translateY(-10px); }
+        }
+
+        .header-info h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header-info p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-green);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Download Button */
+        .download-btn {
+            position: fixed;
+            top: 110px;
+            right: 30px;
+            background: var(--surface-color);
+            border: 2px solid var(--primary-green);
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .download-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .download-option {
+            padding: 8px 12px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .download-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Aside Styles */
+        .aside {
+            grid-area: aside;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--surface-color);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .card h3 {
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateX(10px);
+        }
+
+        .contact-item a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-item a:hover {
+            color: var(--primary-green);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            animation: rgbPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes rgbPulse {
+            0%, 100% { 
+                background: linear-gradient(45deg, var(--primary-green), var(--secondary-green));
+            }
+            33% { 
+                background: linear-gradient(45deg, #3b82f6, var(--primary-green));
+            }
+            66% { 
+                background: linear-gradient(45deg, #8b5cf6, #3b82f6);
+            }
+        }
+
+        .social-link:hover {
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .skill-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 15px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .skill-icon:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .skill-icon i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--primary-green);
+        }
+
+        .skill-icon span {
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* Main Styles */
+        .main {
+            grid-area: main;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .section {
+            background: var(--surface-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h2 {
+            color: var(--primary-green);
+            font-size: 2rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-green);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-green);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            border: 3px solid var(--surface-color);
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            background: rgba(16, 185, 129, 0.1);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .timeline-item h4 {
+            color: var(--primary-green);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item .date {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        /* Language Skills */
+        .language-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .language-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .language-header h4 {
+            color: var(--primary-green);
+            font-size: 1.1rem;
+        }
+
+        .language-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .language-details.active {
+            max-height: 200px;
+        }
+
+        .skill-bar {
+            margin-bottom: 15px;
+        }
+
+        .skill-bar label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Footer */
+        .footer {
+            grid-area: footer;
+            background: var(--surface-color);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .footer a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .footer a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
+            transition: width 0.3s ease;
+        }
+
+        .footer a:hover::before {
+            width: 100%;
+        }
+
+        .footer a:hover {
+            color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        /* Stars Animation for Dark Mode */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle 3s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Particles for Dark Mode */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .dark-theme .particles {
+            opacity: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: rgba(16, 185, 129, 0.6);
+            animation: float-particle 20s linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "header"
+                    "aside"
+                    "main"
+                    "footer";
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header-info h1 {
+                font-size: 2rem;
+            }
+
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .download-btn {
+                top: 80px;
+                right: 15px;
+                padding: 10px;
+            }
+
+            .download-options {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-info h1 {
+                font-size: 1.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="custom-cursor"></div>
+    <div class="stars"></div>
+    <div class="particles"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="profile-image">
+                <img src="WhatsApp Image 2025-09-12 at 8.11.29 PM.jpeg" alt="Shelton Heitor" id="profileImg">
+            </div>
+            <div class="header-info">
+                <h1>Shelton Heitor</h1>
+                <p>Desenvolvedor Full Stack</p>
+            </div>
+        </header>
+
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-sun" id="themeIcon"></i>
+        </button>
+
+        <!-- Download Button -->
+        <div class="download-btn">
+            <div class="download-options">
+                <button class="download-option" onclick="downloadCV('pdf')">
+                    <i class="fas fa-file-pdf"></i> PDF
+                </button>
+                <button class="download-option" onclick="downloadCV('docx')">
+                    <i class="fas fa-file-word"></i> DOCX
+                </button>
+                <button class="download-option" onclick="downloadCV('md')">
+                    <i class="fas fa-file-alt"></i> MD
+                </button>
+            </div>
+        </div>
+
+        <!-- Aside -->
+        <aside class="aside">
+            <!-- Sobre Mim -->
+            <div class="card">
+                <h3><i class="fas fa-user"></i> Sobre Mim</h3>
+                <p>Desenvolvedor apaixonado por tecnologia com mais de 5 anos de experiência em desenvolvimento web e mobile. Especializado em criar soluções inovadoras e interfaces intuitivas que proporcionam experiências únicas aos usuários.</p>
+            </div>
+
+            <!-- Contactos -->
+            <div class="card">
+                <h3><i class="fas fa-address-book"></i> Contactos</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+351912345678">+258 845295431</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="sheltonheitor@gmail.com">Sheltonheitor@gmail.com</a>
+                </div>
+                
+                <div class="social-links">
+                    <a href="https://www.facebook.com/sheltonheitor.madlate" class="social-link" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://wa.me/258845295431" class="social-link" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Habilidades -->
+            <div class="card">
+                <h3><i class="fas fa-code"></i> Habilidades</h3>
+                <div class="skills-grid">
+                    <div class="skill-icon" title="HTML5">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML</span>
+                    </div>
+                    <div class="skill-icon" title="CSS3">
+                        <i class="fab fa-css3-alt"></i>
+                        <span>CSS</span>
+                    </div>
+                    <div class="skill-icon" title="JavaScript">
+                        <i class="fab fa-js-square"></i>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="skill-icon" title="Node.js">
+                        <i class="fab fa-node-js"></i>
+                        <span>Node.js</span>
+                    </div>
+                    <div class="skill-icon" title="PHP">
+                        <i class="fab fa-php"></i>
+                        <span>PHP</span>
+                    </div>
+                    <div class="skill-icon" title="Python">
+                        <i class="fab fa-python"></i>
+                        <span>Python</span>
+                    </div>
+                    <div class="skill-icon" title="Java">
+                        <i class="fab fa-java"></i>
+                        <span>Java</span>
+                    </div>
+                    <div class="skill-icon" title="React Native">
+                        <i class="fab fa-react"></i>
+                        <span>React Native</span>
+                    </div>
+                    <div class="skill-icon" title="MySQL">
+                        <i class="fas fa-database"></i>
+                        <span>MySQL</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main">
+            <!-- Formações -->
+            <section class="section" id="education">
+                <h2><i class="fas fa-graduation-cap"></i> Formações</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Escola Secundaria Bunifacio Gruveta Massamba</h4>
+                        <div class="date">2019 - 2023</div>
+                        <li>10 Classe - Estudande com base solida em calculos basicos, leitura exclente entre outros conhecimentos.</li>
+                        <li>12 classe - Estudande com base solida em ciencias com Bioligia e calculos avançado de matematica e fisica e quimica.</li>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Instituto de Transportes e Comunicacoes</h4>
+                        <div class="date">2024 - 2026</div>
+                        <li>Tecnico de Suporte Informatico - Formando expecialista em uso de word, excell, powerpoit, Vscode e com cosnhecimentos basicos de criacao de redes.</li>
+                        <li>Tecnico de programação web - Base sólida em programação, algoritmos e estruturas de dados. Participação ativa em projetos de desenvolvimento colaborativo.</li>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experiências -->
+            <section class="section" id="experience">
+                <h2><i class="fas fa-briefcase"></i> Experiências</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Senior Full Stack Developer</h4>
+                        <div class="date">2022 - Presente | TechInnovate Solutions</div>
+                        <p>Liderança de equipe de 5 desenvolvedores. Desenvolvimento de aplicações web complexas usando React, Node.js e MongoDB. Implementação de arquiteturas microservices e otimização de performance.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Full Stack Developer</h4>
+                        <div class="date">2020 - 2022 | WebCraft Agency</div>
+                        <p>Desenvolvimento de sites e aplicações web para clientes corporativos. Especialização em PHP/Laravel e Vue.js. Manutenção de bases de dados MySQL e implementação de APIs RESTful.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>Junior Developer</h4>
+                        <div class="date">2019 - 2020 | StartupHub</div>
+                        <p>Primeiro contacto profissional com desenvolvimento web. Aprendizagem de boas práticas, versionamento com Git e metodologias ágeis. Desenvolvimento em JavaScript vanilla e Python.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Idiomas -->
+            <section class="section" id="languages">
+                <h2><i class="fas fa-globe"></i> Idiomas</h2>
+                
+                <div class="language-item">
+                    <div class="language-header" onclick="toggleLanguage('portuguese')">
+                        <h4>Português</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="language-details" id="portuguese">
+                        <div class="skill-bar">
+                            <label>Escrita</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <label>Escuta</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <label>Fala</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="language-header" onclick="toggleLanguage('english')">
+                        <h4>Inglês</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="language-details" id="english">
+                        <div class="skill-bar">
+                            <label>Escrita</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <label>Escuta</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <label>Fala</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Veja mais dos meus projetos em <a href="gcg.html" target="_blank">www.meusprojetos.com</a></p>
+        </footer>
+
+    <script>
+   
+        
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const profileImg = document.getElementById('profileImg');
+        const body = document.body;
+
+        // Images for light and dark themes
+        const lightModeImg = "WhatsApp Image 2025-09-12 at 8.11.29 PM.jpeg";
+        const darkModeImg = "shelton2.jpg";
+
+        themeToggle.addEventListener('click', () => {
+            const isLight = body.classList.contains('light-theme');
+            
+            // Add transition effect
+            body.style.transition = 'all 0.5s ease';
+            
+            if (isLight) {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                themeIcon.className = 'fas fa-moon';
+                profileImg.src = darkModeImg;
+                createStarsAnimation();
+                createParticles();
+            } else {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                themeIcon.className = 'fas fa-sun';
+                profileImg.src = lightModeImg;
+                clearStars();
+            }
+        });
+
+        // Stars Animation for Dark Mode
+        function createStarsAnimation() {
+            const starsContainer = document.querySelector('.stars');
+            starsContainer.innerHTML = '';
+            
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function clearStars() {
+            const starsContainer = document.querySelector('.stars');
+            starsContainer.innerHTML = '';
+        }
+
+        // Particles Animation
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            particlesContainer.innerHTML = '';
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Language Toggle
+        function toggleLanguage(languageId) {
+            const details = document.getElementById(languageId);
+            const header = details.previousElementSibling;
+            const icon = header.querySelector('i');
+            
+            if (details.classList.contains('active')) {
+                details.classList.remove('active');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Close all other language details
+                document.querySelectorAll('.language-details').forEach(detail => {
+                    detail.classList.remove('active');
+                });
+                document.querySelectorAll('.language-header i').forEach(i => {
+                    i.style.transform = 'rotate(0deg)';
+                });
+                
+                // Open selected language
+                details.classList.add('active');
+                icon.style.transform = 'rotate(180deg)';
+                
+                // Animate progress bars
+                setTimeout(() => {
+                    const progressBars = details.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }, 200);
+            }
+        }
+
+        // Download CV Functions
+        function downloadCV(format) {
+            const cvData = {
+                name: "Shelton Heitor",
+                position: "Desenvolvedor Full Stack ",
+                contact: {
+                    phone: "+258 845295431",
+                    email: "sheltonheitor@gmail.com"
+                },
+                about: "Desenvolvedor apaixonado por tecnologia com mais de 5 anos de experiência em desenvolvimento web e mobile.",
+                education: [
+                    {
+                        title: "Mestrado em Engenharia Informática",
+                        period: "2018 - 2020",
+                        institution: "Universidade do Porto"
+                    },
+                    {
+                        title: "Licenciatura em Ciências da Computação",
+                        period: "2015 - 2018",
+                        institution: "Universidade de Coimbra"
+                    }
+                ],
+                experience: [
+                    {
+                        title: "Senior Full Stack Developer",
+                        period: "2022 - Presente",
+                        company: "TechInnovate Solutions"
+                    },
+                    {
+                        title: "Full Stack Developer",
+                        period: "2020 - 2022",
+                        company: "WebCraft Agency"
+                    },
+                    {
+                        title: "Junior Developer",
+                        period: "2019 - 2020",
+                        company: "StartupHub"
+                    }
+                ],
+                skills: ["HTML", "CSS", "JavaScript", "Node.js", "PHP", "Python", "Java", "React Native", "MySQL"],
+                languages: {
+                    "Português": { writing: 100, listening: 100, speaking: 100 },
+                    "Inglês": { writing: 90, listening: 95, speaking: 85 },
+                    "Espanhol": { writing: 75, listening: 80, speaking: 70 }
+                }
+            };
+
+            switch(format) {
+                case 'pdf':
+                    downloadPDF(cvData);
+                    break;
+                case 'docx':
+                    downloadDOCX(cvData);
+                    break;
+                case 'md':
+                    downloadMarkdown(cvData);
+                    break;
+            }
+        }
+
+        function downloadPDF(data) {
+            // Simulate PDF download
+            const pdfContent = generatePDFContent(data);
+            downloadFile(pdfContent, 'CV Shelton Heitor.pdf', 'application/pdf');
+        }
+
+        function downloadDOCX(data) {
+            // Simulate DOCX download
+            const docxContent = generateDOCXContent(data);
+            downloadFile(docxContent, 'CV Shelton Heitor.Docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        }
+
+        function downloadMarkdown(data) {
+            const mdContent = generateMarkdownContent(data);
+            downloadFile(mdContent, 'CV_Shelton Heitor.md', 'text/markdown');
+        }
+
+        function generateMarkdownContent(data) {
+            return `# ${data.name}
+## ${data.position}
+
+### Contactos
+- **Telefone:** ${data.contact.phone}
+- **Email:** ${data.contact.email}
+
+### Sobre Mim
+${data.about}
+
+### Formações
+${data.education.map(edu => `- **${edu.title}** (${edu.period}) - ${edu.institution}`).join('\n')}
+
+### Experiências
+${data.experience.map(exp => `- **${exp.title}** (${exp.period}) - ${exp.company}`).join('\n')}
+
+### Habilidades
+${data.skills.map(skill => `- ${skill}`).join('\n')}
+
+### Idiomas
+${Object.entries(data.languages).map(([lang, skills]) => 
+    `- **${lang}:** Escrita (${skills.writing}%), Escuta (${skills.listening}%), Fala (${skills.speaking}%)`
+).join('\n')}
+
+---
+Mais projetos em: www.meusprojetos.com`;
+        }
+
+        function generatePDFContent(data) {
+            return `%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] >>
+endobj
+xref
+0 4
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+trailer
+<< /Size 4 /Root 1 0 R >>
+startxref
+184
+%%EOF`;
+        }
+
+        function generateDOCXContent(data) {
+            return `PK${String.fromCharCode(3,4)}[Content_Types].xml`;
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add hover effects to timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(15px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+
+        // Add parallax effect to header
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header');
+            header.style.transform = `translateY(${scrolled * 0.1}px)`;
+        });
+
+        // Initialize particles on dark theme if already active
+        if (body.classList.contains('dark-theme')) {
+            createParticles();
+        }
+    </script>
+</body>
+</html>
