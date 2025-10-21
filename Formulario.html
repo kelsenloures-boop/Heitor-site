@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Liquid Glass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0a',
+                        'dark-light': '#1a1a1a',
+                        primary: '#00ff88',
+                        'primary-light': '#80ffc2',
+                        'primary-dark': '#00cc6a',
+                        secondary: '#00ccff',
+                        accent: '#ff00ff'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slide-in': 'slideIn 0.5s ease-out forwards',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'shimmer': 'shimmer 2s infinite',
+                        'liquid': 'liquid 8s ease-in-out infinite',
+                        'morph': 'morph 10s ease-in-out infinite',
+                        'neon': 'neon 1.5s ease-in-out infinite alternate',
+                        'ripple': 'ripple 2s linear infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        glow: {
+                            'from': { 
+                                boxShadow: '0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 15px #00ff88' 
+                            },
+                            'to': { 
+                                boxShadow: '0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ff88' 
+                            }
+                        },
+                        slideIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' }
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-500px 0' },
+                            '100%': { backgroundPosition: '500px 0' }
+                        },
+                        liquid: {
+                            '0%, 100%': { 
+                                borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
+                                transform: 'translateY(0)'
+                            },
+                            '50%': { 
+                                borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%',
+                                transform: 'translateY(-10px)'
+                            }
+                        },
+                        morph: {
+                            '0%, 100%': { 
+                                borderRadius: '42% 58% 70% 30% / 45% 45% 55% 55%',
+                                transform: 'translateY(0) scale(1)'
+                            },
+                            '33%': { 
+                                borderRadius: '70% 30% 46% 54% / 30% 29% 71% 70%',
+                                transform: 'translateY(-5px) scale(1.05)'
+                            },
+                            '66%': { 
+                                borderRadius: '100% 60% 60% 100% / 100% 100% 60% 60%',
+                                transform: 'translateY(5px) scale(0.95)'
+                            }
+                        },
+                        neon: {
+                            '0%': {
+                                textShadow: '0 0 5px #00ff88, 0 0 10px #00ff88, 0 0 15px #00ff88, 0 0 20px #00ff88'
+                            },
+                            '100%': {
+                                textShadow: '0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ff88, 0 0 40px #00ff88'
+                            }
+                        },
+                        ripple: {
+                            '0%': {
+                                transform: 'scale(0.8)',
+                                opacity: '1'
+                            },
+                            '100%': {
+                                transform: 'scale(2.4)',
+                                opacity: '0'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            min-height: 100vh;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .liquid-glass {
+            background: rgba(10, 10, 10, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 136, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 31, 63, 0.37);
+        }
+        
+        .liquid-glass-strong {
+            background: rgba(0, 255, 136, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 255, 136, 0.1);
+        }
+        
+        .cyber-border {
+            position: relative;
+            border: 1px solid transparent;
+            background: linear-gradient(90deg, #0a0a0a, #0a0a0a) padding-box,
+                        linear-gradient(90deg, #00ff88, #00ccff, #ff00ff, #00ff88) border-box;
+            background-size: 300% 300%;
+            animation: gradient 3s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .holographic-effect {
+            background: linear-gradient(125deg, 
+                rgba(0, 255, 136, 0.1) 0%, 
+                rgba(0, 204, 255, 0.1) 25%, 
+                rgba(255, 0, 255, 0.1) 50%, 
+                rgba(0, 255, 136, 0.1) 75%, 
+                rgba(0, 204, 255, 0.1) 100%);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .cyber-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.3);
+            border-color: #00ff88;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .floating-label {
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+        
+        .input-filled + .floating-label,
+        .input-field:focus + .floating-label {
+            top: 0;
+            font-size: 0.75rem;
+            color: #00ff88;
+        }
+        
+        .particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(0, 255, 136, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .morphing-shape {
+            animation: morph 10s ease-in-out infinite;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            filter: blur(40px);
+            opacity: 0.2;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 255, 136, 0.3);
+            transform: scale(0);
+            animation: ripple 2s linear;
+            pointer-events: none;
+        }
+        
+        .password-strength {
+            height: 6px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .password-weak {
+            background: linear-gradient(90deg, #ff4d4d, #ff9999);
+            width: 25%;
+        }
+        
+        .password-medium {
+            background: linear-gradient(90deg, #ffa64d, #ffcc99);
+            width: 50%;
+        }
+        
+        .password-strong {
+            background: linear-gradient(90deg, #00ff88, #80ffc2);
+            width: 100%;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed rgba(0, 255, 136, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-area.dragover {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 3px;
+            background-color: #555;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #00ff88;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(28px);
+            background-color: #0a0a0a;
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background: #1a1a1a;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .skill-level {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .tab-button {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab-button:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00ff88;
+            transition: width 0.3s ease;
+        }
+        
+        .tab-button.active:after {
+            width: 100%;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .flip-card {
+            perspective: 1000px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #00ff88;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00ff88 }
+        }
+        
+        .pulse-ring {
+            display: block;
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 20px rgba(0, 255, 136, 0);
+            }
+            100% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+    <!-- Partículas de fundo -->
+    <div id="particles-js" class="particles-js"></div>
+    
+    <!-- Grid de fundo -->
+    <div class="cyber-grid fixed top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+    
+    <!-- Formas líquidas animadas -->
+    <div class="fixed top-10 left-10 w-64 h-64 morphing-shape opacity-20"></div>
+    <div class="fixed bottom-10 right-10 w-80 h-80 morphing-shape opacity-15" style="animation-delay: -5s;"></div>
+    <div class="fixed top-1/2 left-1/4 w-96 h-96 morphing-shape opacity-10" style="animation-delay: -2.5s;"></div>
+    
+    <!-- Container principal -->
+    <div class="container mx-auto px-4 py-8 min-h-screen flex flex-col justify-center relative z-10">
+        <div class="max-w-6xl mx-auto w-full">
+            <!-- Cabeçalho -->
+            <div class="text-center mb-12">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 cyber-font typewriter neon-element">
+                    IT<span class="text-primary">FORMUlARIO</span>
+                </h1>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Preencha nosso formulário avançado com efeitos especiais e tecnologia de ponta
+                </p>
+                
+                <!-- Barra de progresso -->
+                <div class="mt-8 max-w-2xl mx-auto">
+                    <div class="flex justify-between text-sm text-gray-500 mb-2">
+                        <span>Progresso do Formulário</span>
+                        <span id="progress-percentage">0%</span>
+                    </div>
+                    <div class="h-2 bg-dark-light rounded-full overflow-hidden">
+                        <div id="progress-bar" class="progress-bar h-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Abas de navegação -->
+            <div class="liquid-glass rounded-2xl p-1 mb-8 max-w-4xl mx-auto">
+                <div class="flex flex-wrap justify-center">
+                    <button class="tab-button py-3 px-6 text-lg font-medium transition-all active" data-tab="personal">
+                        <i class="fas fa-user mr-2"></i>Dados Pessoais
+                    </button>
+                    <button class="tab-button py-3 px-6 text-lg font-medium transition-all" data-tab="professional">
+                        <i class="fas fa-briefcase mr-2"></i>Profissional
+                    </button>
+                    <button class="tab-button py-3 px-6 text-lg font-medium transition-all" data-tab="preferences">
+                        <i class="fas fa-sliders-h mr-2"></i>Preferências
+                    </button>
+                    <button class="tab-button py-3 px-6 text-lg font-medium transition-all" data-tab="review">
+                        <i class="fas fa-check-circle mr-2"></i>Revisão
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Formulário -->
+            <div class="liquid-glass-strong rounded-2xl p-8 shadow-2xl transition-all relative overflow-hidden">
+                <!-- Indicador de aba ativa -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
+                
+                <!-- Conteúdo das abas -->
+                <form id="mainForm" class="space-y-8">
+                    <!-- Aba 1: Dados Pessoais -->
+                    <div id="personal" class="tab-content active">
+                        <h2 class="text-2xl font-bold mb-6 text-primary cyber-font">Dados Pessoais</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Nome Completo -->
+                            <div class="relative">
+                                <input type="text" id="fullName" name="fullName" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="fullName" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-user text-primary mr-2"></i>Nome Completo
+                                </label>
+                                <div class="absolute right-3 top-4 text-primary opacity-0 transition-opacity" id="nameCheck">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="relative">
+                                <input type="email" id="email" name="email" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="email" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-envelope text-primary mr-2"></i>Email
+                                </label>
+                                <div class="absolute right-3 top-4 text-primary opacity-0 transition-opacity" id="emailCheck">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Telefone -->
+                            <div class="relative">
+                                <input type="tel" id="phone" name="phone" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="phone" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-phone text-primary mr-2"></i>Telefone
+                                </label>
+                            </div>
+                            
+                            <!-- Data de Nascimento -->
+                            <div class="relative">
+                                <input type="date" id="birthDate" name="birthDate" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="birthDate" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-calendar-alt text-primary mr-2"></i>Data de Nascimento
+                                </label>
+                            </div>
+                            
+                            <!-- Gênero -->
+                            <div class="md:col-span-2">
+                                <label class="block text-lg font-medium mb-3">
+                                    <i class="fas fa-venus-mars text-primary mr-2"></i>Gênero
+                                </label>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="radio" name="gender" value="male" class="form-radio text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Masculino</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="radio" name="gender" value="female" class="form-radio text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Feminino</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="radio" name="gender" value="other" class="form-radio text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Outro</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="radio" name="gender" value="prefer-not" class="form-radio text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Prefiro não dizer</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Nacionalidade -->
+                            <div class="relative">
+                                <select id="nationality" name="nationality" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all appearance-none">
+                                    <option value=""></option>
+                                    <option value="br">Brasileiro(a)</option>
+                                    <option value="us">Americano(a)</option>
+                                    <option value="pt">Mocambicano(a)</option>
+                                    <option value="cn">Chines(a)</option>
+                                    <option value="jp">Japones(a)</option>
+                                    <option value="ag">Amgolano(a)</option>
+                                    <option value="other">Outra</option>
+                                </select>
+                                <label for="nationality" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-globe text-primary mr-2"></i>Nacionalidade
+                                </label>
+                                <div class="absolute right-3 top-4 text-gray-400">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- CEP -->
+                            <div class="relative">
+                                <input type="text" id="cpf" name="cpf" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="cpf" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-id-card text-primary mr-2"></i>CEP
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Navegação entre abas -->
+                        <div class="flex justify-end mt-8">
+                            <button type="button" class="next-tab bg-primary hover:bg-primary-dark text-white font-medium py-3 px-8 rounded-lg transition-all btn-hover pulse-element" data-next="professional">
+                                Próximo <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Aba 2: Dados Profissionais -->
+                    <div id="professional" class="tab-content">
+                        <h2 class="text-2xl font-bold mb-6 text-primary cyber-font">Dados Profissionais</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Profissão -->
+                            <div class="relative">
+                                <input type="text" id="profession" name="profession" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="profession" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-briefcase text-primary mr-2"></i>Profissão
+                                </label>
+                            </div>
+                            
+                            <!-- Empresa -->
+                            <div class="relative">
+                                <input type="text" id="company" name="company" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="company" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-building text-primary mr-2"></i>Empresa
+                                </label>
+                            </div>
+                            
+                            <!-- Salário -->
+                            <div class="relative">
+                                <input type="number" id="salary" name="salary" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="salary" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-money-bill-wave text-primary mr-2"></i>Salário (MTs)
+                                </label>
+                            </div>
+                            
+                            <!-- Tempo de Experiência -->
+                            <div class="relative">
+                                <select id="experience" name="experience" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all appearance-none">
+                                    <option value=""></option>
+                                    <option value="0-2">0-2 anos</option>
+                                    <option value="3-5">3-5 anos</option>
+                                    <option value="6-10">6-10 anos</option>
+                                    <option value="10+">Mais de 10 anos</option>
+                                </select>
+                                <label for="experience" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-chart-line text-primary mr-2"></i>Experiência
+                                </label>
+                                <div class="absolute right-3 top-4 text-gray-400">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Habilidades -->
+                            <div class="md:col-span-2">
+                                <label class="block text-lg font-medium mb-3">
+                                    <i class="fas fa-tools text-primary mr-2"></i>Habilidades Técnicas
+                                </label>
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span>HTML/CSS</span>
+                                            <span id="htmlSkillValue">70%</span>
+                                        </div>
+                                        <div class="skill-bar">
+                                            <div id="htmlSkill" class="skill-level" style="width: 70%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span>JavaScript</span>
+                                            <span id="jsSkillValue">60%</span>
+                                        </div>
+                                        <div class="skill-bar">
+                                            <div id="jsSkill" class="skill-level" style="width: 60%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span>Design UI/UX</span>
+                                            <span id="designSkillValue">80%</span>
+                                        </div>
+                                        <div class="skill-bar">
+                                            <div id="designSkill" class="skill-level" style="width: 80%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Upload de Currículo -->
+                            <div class="md:col-span-2">
+                                <label class="block text-lg font-medium mb-3">
+                                    <i class="fas fa-file-upload text-primary mr-2"></i>Currículo (PDF)
+                                </label>
+                                <div id="fileUploadArea" class="file-upload-area rounded-lg p-8 text-center transition-all">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-primary mb-4"></i>
+                                    <p class="text-lg mb-2">Arraste seu arquivo aqui ou clique para selecionar</p>
+                                    <p class="text-sm text-gray-500">Tamanho máximo: 10MB</p>
+                                    <input type="file" id="resume" name="resume" class="hidden" accept=".pdf,.doc,.docx">
+                                    <button type="button" id="fileSelectButton" class="mt-4 bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 rounded-lg transition-all">
+                                        Selecionar Arquivo
+                                    </button>
+                                </div>
+                                <div id="fileInfo" class="mt-4 hidden">
+                                    <p class="text-primary"><i class="fas fa-file-pdf mr-2"></i><span id="fileName"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navegação entre abas -->
+                        <div class="flex justify-between mt-8">
+                            <button type="button" class="prev-tab bg-dark-light hover:bg-gray-800 text-white font-medium py-3 px-8 rounded-lg transition-all btn-hover border border-gray-700">
+                                <i class="fas fa-arrow-left mr-2"></i> Anterior
+                            </button>
+                            <button type="button" class="next-tab bg-primary hover:bg-primary-dark text-white font-medium py-3 px-8 rounded-lg transition-all btn-hover pulse-element" data-next="preferences">
+                                Próximo <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Aba 3: Preferências -->
+                    <div id="preferences" class="tab-content">
+                        <h2 class="text-2xl font-bold mb-6 text-primary cyber-font">Preferências</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Interesses -->
+                            <div class="md:col-span-2">
+                                <label class="block text-lg font-medium mb-3">
+                                    <i class="fas fa-heart text-primary mr-2"></i>Áreas de Interesse
+                                </label>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="tech" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Tecnologia</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="sports" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Esportes</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="music" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Música</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="travel" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Viagens</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="art" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Arte</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="science" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Ciência</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="gaming" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Jogos</span>
+                                    </label>
+                                    <label class="inline-flex items-center cyber-border rounded-lg px-4 py-3 cursor-pointer transition-all hover:bg-dark-light">
+                                        <input type="checkbox" name="interests" value="reading" class="form-checkbox text-primary bg-dark-light border-gray-700">
+                                        <span class="ml-3">Leitura</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Cor Favorita -->
+                            <div class="relative">
+                                <input type="color" id="favoriteColor" name="favoriteColor" value="#00ff88" class="w-full h-14 bg-dark-light border border-gray-700 rounded-lg cursor-pointer">
+                                <label for="favoriteColor" class="block text-lg font-medium mb-3">
+                                    <i class="fas fa-palette text-primary mr-2"></i>Cor Favorita
+                                </label>
+                            </div>
+                            
+                            <!-- Notificações -->
+                            <div>
+                                <label class="block text-lg font-medium mb-3">
+                                    <i class="fas fa-bell text-primary mr-2"></i>Preferências de Notificação
+                                </label>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center">
+                                        <span>Notificações por Email</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="emailNotifications" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span>Notificações por SMS</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="smsNotifications">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span>Notificações de Promoções</span>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="promoNotifications" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Senha -->
+                            <div class="relative">
+                                <input type="password" id="password" name="password" class="input-field w-full bg-dark-light border border-gray-700 rounded-lg py-4 px-4 text-white input-focus transition-all">
+                                <label for="password" class="floating-label absolute left-4 top-4 text-gray-400 pointer-events-none transition-all">
+                                    <i class="fas fa-lock text-primary mr-2"></i>Senha
+                                </label>
+                                <div class="absolute right-3 top-4 text-gray-400 cursor-pointer" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Força da Senha -->
+                            <div class="md:col-span-2">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Força da Senha</span>
+                                    <span id="passwordStrengthText">Fraca</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div id="passwordStrength" class="password-weak"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mensagem -->
+                            <div class="md:col-span-2">
+                                <label for="message" class="block text-lg font-medium mb-3">
+                                    <i class="fas fa-comment text-primary mr-2"></i>Mensagem
+                                </label>
+                                <textarea id="message" name="message" rows="4" class="w-full bg-dark-light border border-gray-700 rounded-lg py-3 px-4 text-white input-focus transition-all focus:border-primary" placeholder="Digite sua mensagem..."></textarea>
+                                <div class="flex justify-between text-sm text-gray-500 mt-2">
+                                    <span>Mensagem opcional</span>
+                                    <span id="charCount">0/500</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navegação entre abas -->
+                        <div class="flex justify-between mt-8">
+                            <button type="button" class="prev-tab bg-dark-light hover:bg-gray-800 text-white font-medium py-3 px-8 rounded-lg transition-all btn-hover border border-gray-700">
+                                <i class="fas fa-arrow-left mr-2"></i> Anterior
+                            </button>
+                            <button type="button" class="next-tab bg-primary hover:bg-primary-dark text-white font-medium py-3 px-8 rounded-lg transition-all btn-hover pulse-element" data-next="review">
+                                Próximo <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Aba 4: Revisão -->
+                    <div id="review" class="tab-content">
+                        <h2 class="text-2xl font-bold mb-6 text-primary cyber-font">Revisão Final</h2>
+                        
+                        <div class="liquid-glass rounded-xl p-6 mb-8">
+                            <h3 class="text-xl font-semibold mb-4 text-primary">Resumo do Formulário</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="formSummary">
+                                <!-- Resumo será preenchido via JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Termos e Condições -->
+                        <div class="mb-8">
+                            <div class="flex items-start">
+                                <input type="checkbox" id="terms" name="terms" class="form-checkbox text-primary bg-dark-light border-gray-700 mt-1" required>
+                                <label for="terms" class="ml-3 text-sm">
+                                    Concordo com os <a href="#" class="text-primary hover:underline">termos e condições</a> e com a <a href="#" class="text-primary hover:underline">política de privacidade</a>. Estou ciente de que meus dados serão processados de acordo com a legislação aplicável.
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Navegação entre abas -->
+                        <div class="flex justify-between mt-8">
+                            <button type="button" class="prev-tab bg-dark-light hover:bg-gray-800 text-white font-medium py-3 px-8 rounded-lg transition-all btn-hover border border-gray-700">
+                                <i class="fas fa-arrow-left mr-2"></i> Anterior
+                            </button>
+                            <button type="submit" class="bg-primary hover:bg-primary-dark text-white font-medium py-3 px-8 rounded-lg transition-all btn-hover pulse-element">
+                                <i class="fas fa-paper-plane mr-2"></i>Enviar Formulário
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Rodapé -->
+            <div class="text-center mt-12 text-gray-500 text-sm">
+                <p>© 2025 Shelton Heitor. Todos os direitos reservados. | <a href="inicio.html" class="text-primary hover:underline">Política de Privacidade</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notificação -->
+    <div id="notification" class="notification">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle text-primary mr-2"></i>
+            <span id="notificationText">Formulário enviado com sucesso!</span>
+        </div>
+    </div>
+    
+    <script>
+        // Inicialização das partículas
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuração das partículas
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 80, density: { enable: true, value_area: 800 } },
+                        color: { value: "#00ff88" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.5, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: "#00ff88",
+                            opacity: 0.4,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 2,
+                            direction: "none",
+                            random: true,
+                            straight: false,
+                            out_mode: "out",
+                            bounce: false
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: { enable: true, mode: "repulse" },
+                            onclick: { enable: true, mode: "push" },
+                            resize: true
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
+            
+            // Inicializar elementos flutuantes
+            initFloatingElements();
+            
+            // Inicializar sistema de abas
+            initTabSystem();
+            
+            // Inicializar validações
+            initValidations();
+            
+            // Inicializar efeitos especiais
+            initSpecialEffects();
+        });
+        
+        // Sistema de abas
+        function initTabSystem() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // Atualizar botões ativos
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Atualizar conteúdo ativo
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Atualizar barra de progresso
+                    updateProgressBar();
+                });
+            });
+            
+            // Navegação entre abas com botões
+            document.querySelectorAll('.next-tab').forEach(button => {
+                button.addEventListener('click', () => {
+                    const nextTab = button.getAttribute('data-next');
+                    document.querySelector(`.tab-button[data-tab="${nextTab}"]`).click();
+                });
+            });
+            
+            document.querySelectorAll('.prev-tab').forEach(button => {
+                button.addEventListener('click', () => {
+                    const currentTab = document.querySelector('.tab-content.active').id;
+                    let prevTab = '';
+                    
+                    switch(currentTab) {
+                        case 'professional': prevTab = 'personal'; break;
+                        case 'preferences': prevTab = 'professional'; break;
+                        case 'review': prevTab = 'preferences'; break;
+                    }
+                    
+                    if (prevTab) {
+                        document.querySelector(`.tab-button[data-tab="${prevTab}"]`).click();
+                    }
+                });
+            });
+        }
+        
+        // Validações
+        function initValidations() {
+            // Validação de nome
+            document.getElementById('fullName').addEventListener('input', function() {
+                const nameCheck = document.getElementById('nameCheck');
+                if (this.value.length > 2) {
+                    nameCheck.style.opacity = '1';
+                    this.classList.add('input-filled');
+                } else {
+                    nameCheck.style.opacity = '0';
+                    this.classList.remove('input-filled');
+                }
+                updateProgressBar();
+            });
+            
+            // Validação de email
+            document.getElementById('email').addEventListener('input', function() {
+                const emailCheck = document.getElementById('emailCheck');
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailPattern.test(this.value)) {
+                    emailCheck.style.opacity = '1';
+                    this.classList.add('input-filled');
+                } else {
+                    emailCheck.style.opacity = '0';
+                    this.classList.remove('input-filled');
+                }
+                updateProgressBar();
+            });
+            
+            // Máscara para telefone
+            document.getElementById('phone').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.substring(0, 11);
+                
+                if (value.length <= 10) {
+                    value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                } else {
+                    value = value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+                }
+                
+                e.target.value = value;
+                if (value.length > 0) e.target.classList.add('input-filled');
+                else e.target.classList.remove('input-filled');
+                updateProgressBar();
+            });
+            
+            // Máscara para CPF
+            document.getElementById('cpf').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.substring(0, 11);
+                
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+                
+                e.target.value = value;
+                if (value.length > 0) e.target.classList.add('input-filled');
+                else e.target.classList.remove('input-filled');
+                updateProgressBar();
+            });
+            
+            // Campos com floating label
+            document.querySelectorAll('.input-field').forEach(field => {
+                field.addEventListener('focus', function() {
+                    this.parentElement.querySelector('.floating-label').style.color = '#00ff88';
+                });
+                
+                field.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.parentElement.querySelector('.floating-label').style.color = '#9ca3af';
+                    }
+                });
+                
+                // Verificar campos preenchidos ao carregar a página
+                if (field.value) {
+                    field.classList.add('input-filled');
+                }
+            });
+            
+            // Upload de arquivo
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const fileInput = document.getElementById('resume');
+            const fileSelectButton = document.getElementById('fileSelectButton');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            
+            fileSelectButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    fileName.textContent = file.name;
+                    fileInfo.classList.remove('hidden');
+                    fileUploadArea.classList.add('hidden');
+                    updateProgressBar();
+                }
+            });
+            
+            fileUploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.add('dragover');
+            });
+            
+            fileUploadArea.addEventListener('dragleave', () => {
+                fileUploadArea.classList.remove('dragover');
+            });
+            
+            fileUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.remove('dragover');
+                
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    const file = e.dataTransfer.files[0];
+                    fileName.textContent = file.name;
+                    fileInfo.classList.remove('hidden');
+                    fileUploadArea.classList.add('hidden');
+                    updateProgressBar();
+                }
+            });
+            
+            // Força da senha
+            document.getElementById('password').addEventListener('input', function() {
+                const strengthBar = document.getElementById('passwordStrength');
+                const strengthText = document.getElementById('passwordStrengthText');
+                const value = this.value;
+                let strength = 0;
+                
+                if (value.length > 0) this.classList.add('input-filled');
+                else this.classList.remove('input-filled');
+                
+                // Verificar comprimento
+                if (value.length >= 8) strength += 1;
+                
+                // Verificar letras maiúsculas e minúsculas
+                if (value.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1;
+                
+                // Verificar números
+                if (value.match(/([0-9])/)) strength += 1;
+                
+                // Verificar caracteres especiais
+                if (value.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1;
+                
+                // Atualizar barra de força
+                switch(strength) {
+                    case 0:
+                        strengthBar.className = 'password-weak';
+                        strengthText.textContent = 'Fraca';
+                        break;
+                    case 1:
+                        strengthBar.className = 'password-weak';
+                        strengthText.textContent = 'Fraca';
+                        break;
+                    case 2:
+                        strengthBar.className = 'password-medium';
+                        strengthText.textContent = 'Média';
+                        break;
+                    case 3:
+                        strengthBar.className = 'password-strong';
+                        strengthText.textContent = 'Forte';
+                        break;
+                    case 4:
+                        strengthBar.className = 'password-strong';
+                        strengthText.textContent = 'Muito Forte';
+                        break;
+                }
+                
+                updateProgressBar();
+            });
+            
+            // Alternar visibilidade da senha
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordField = document.getElementById('password');
+                const icon = this.querySelector('i');
+                
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+            
+            // Contador de caracteres
+            document.getElementById('message').addEventListener('input', function() {
+                const charCount = document.getElementById('charCount');
+                charCount.textContent = `${this.value.length}/500`;
+                updateProgressBar();
+            });
+            
+            // Atualizar barras de habilidade
+            document.querySelectorAll('.skill-level').forEach(skill => {
+                // Animar as barras de habilidade
+                setTimeout(() => {
+                    skill.style.transition = 'width 2s ease';
+                }, 500);
+            });
+        }
+        
+        // Efeitos especiais
+        function initSpecialEffects() {
+            // Efeito de ripple nos botões
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple-effect');
+                    
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Efeito de digitação no título
+            const typewriter = document.querySelector('.typewriter');
+            setTimeout(() => {
+                typewriter.style.animation = 'none';
+                setTimeout(() => {
+                    typewriter.style.animation = 'typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite';
+                }, 100);
+            }, 3500);
+            
+            // Efeito de neon intermitente
+            setInterval(() => {
+                const neonElement = document.querySelector('.neon-element');
+                neonElement.classList.toggle('animate-neon');
+            }, 3000);
+        }
+        
+        // Elementos flutuantes
+        function initFloatingElements() {
+            // Criar elementos flutuantes adicionais
+            for (let i = 0; i < 10; i++) {
+                const element = document.createElement('div');
+                element.classList.add('fixed', 'rounded-full', 'floating-element');
+                element.style.width = `${Math.random() * 30 + 10}px`;
+                element.style.height = element.style.width;
+                element.style.background = `rgba(0, 255, 136, ${Math.random() * 0.2 + 0.05})`;
+                element.style.top = `${Math.random() * 100}%`;
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(element);
+            }
+        }
+        
+        // Atualizar barra de progresso
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercentage = document.getElementById('progress-percentage');
+            
+            // Calcular progresso baseado nos campos preenchidos
+            const fields = document.querySelectorAll('input, textarea, select');
+            let filledFields = 0;
+            
+            fields.forEach(field => {
+                if (field.type === 'checkbox' || field.type === 'radio') {
+                    if (field.checked) filledFields++;
+                } else if (field.value && field.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+            
+            const progress = Math.min(100, Math.round((filledFields / fields.length) * 100));
+            progressBar.style.width = `${progress}%`;
+            progressPercentage.textContent = `${progress}%`;
+        }
+        
+        // Envio do formulário
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
+            submitBtn.disabled = true;
+            
+            // Simulação de envio
+            setTimeout(() => {
+                // Mostrar notificação
+                const notification = document.getElementById('notification');
+                const notificationText = document.getElementById('notificationText');
+                notificationText.textContent = 'Formulário enviado com sucesso!';
+                notification.classList.add('show');
+                
+                // Reset após 5 segundos
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    this.reset();
+                    
+                    // Reset visual
+                    document.querySelectorAll('.input-filled').forEach(el => {
+                        el.classList.remove('input-filled');
+                    });
+                    
+                    document.querySelectorAll('.floating-label').forEach(label => {
+                        label.style.color = '#9ca3af';
+                    });
+                    
+                    document.getElementById('fileInfo').classList.add('hidden');
+                    document.getElementById('fileUploadArea').classList.remove('hidden');
+                    
+                    document.getElementById('passwordStrength').className = 'password-weak';
+                    document.getElementById('passwordStrengthText').textContent = 'Fraca';
+                    document.getElementById('charCount').textContent = '0/500';
+                    
+                    updateProgressBar();
+                    
+                    // Voltar para a primeira aba
+                    document.querySelector('.tab-button[data-tab="personal"]').click();
+                }, 5000);
+            }, 3000);
+        });
+        
+        // Inicializar barra de progresso
+        updateProgressBar();
+    </script>
+</body>
+</html>
